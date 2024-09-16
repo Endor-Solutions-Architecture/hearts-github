@@ -26,15 +26,16 @@ jobs:
         run: mvn -B clean install
         
         
-      - name: Scan with Endor Labs
+      - name: Endor Labs Workflow Dispatch
         uses: endorlabs/github-action@main
         with:
-          namespace: matt-demo
-          api_key: ${{ secrets.ENDOR_API_CREDENTIALS_KEY }}
-          api_secret: ${{ secrets.ENDOR_API_CREDENTIALS_SECRET }}
-          enable_github_action_token: false
-          scan_summary_output_type: table
-          pr_run: true
+          namespace: "matt-demo"
+          api: "https://api.endorlabs.com"
+          scan_summary_output_type: "table"
+          enable_pr_comments: true
+          enable_github_action_token: true
+          github_token: ${{ secrets.GH_TOKEN }} 
+          tags: "actor = ${{ github.actor }},run-id = ${{ github.run_id }},event name = ${{ github.event_name }},workflow = ${{ github.workflow }}"
           sarif_file: endor-labs.sarif
       
       - name: Upload SARIF to github
